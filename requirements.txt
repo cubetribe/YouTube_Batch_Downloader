@@ -1,0 +1,9 @@
+# YouTube Batch Downloader - Required Dependencies
+
+# Core functionality
+yt-dlp>=2024.12.0
+requests>=2.31.0
+
+# Optional: For GUI (currently in development)
+# Uncomment if you want to use the GUI version
+# rich>=13.0.0
