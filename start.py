@@ -16,17 +16,28 @@ def clear_screen():
 
 def show_menu():
     """Display the main menu"""
-    print("=" * 50)
-    print("🎬 YOUTUBE DOWNLOADER 🎵")
-    print("=" * 50)
+    print("=" * 60)
+    print("🎬 YOUTUBE HD/4K DOWNLOADER 🎵")
+    print("=" * 60)
     print()
-    print("1️⃣  Video herunterladen (MP4)")
-    print("2️⃣  Audio herunterladen (MP3)")
-    print("3️⃣  Batch Download - Videos (MP4)")
-    print("4️⃣  Batch Download - Audios (MP3)")
-    print("5️⃣  Beenden")
+    print("📹 EINZELNE DOWNLOADS:")
+    print("  1️⃣  Video herunterladen (HD/4K)")
+    print("  2️⃣  Audio herunterladen (MP3 320kbps)")
     print()
-    print("=" * 50)
+    print("📦 BATCH DOWNLOADS:")
+    print("  3️⃣  Batch Download - Videos (HD/4K)")
+    print("  4️⃣  Batch Download - Audios (MP3)")
+    print()
+    print("🔧 ERWEITERTE OPTIONEN:")
+    print("  5️⃣  Ultimate HD Downloader (Multi-Strategie)")
+    print("  6️⃣  HD-Only Download (min. 1080p, lehnt niedrigere ab)")
+    print("  7️⃣  PO Token Setup (für bessere Qualität)")
+    print()
+    print("  8️⃣  Beenden")
+    print()
+    print("=" * 60)
+    print("ℹ️  Hinweis: Für beste Qualität in Chrome bei YouTube anmelden!")
+    print("=" * 60)
 
 def get_youtube_url():
     """Get YouTube URL from user"""
@@ -209,6 +220,96 @@ def run_batch_download(urls, mode):
         print(f"❌ Fehler: {e}")
         input("Enter drücken zum Fortfahren...")
 
+def run_ultimate_downloader():
+    """Run the Ultimate HD Downloader for difficult videos"""
+    try:
+        print("\n" + "=" * 60)
+        print("🚀 ULTIMATE HD DOWNLOADER")
+        print("=" * 60)
+        print("Verwendet mehrere Strategien für beste Qualität!")
+        print("=" * 60 + "\n")
+
+        url = get_youtube_url()
+
+        # Import and use the ultimate downloader
+        from download_ultimate import UltimateHDDownloader
+        downloader = UltimateHDDownloader()
+        downloader.download_hd(url)
+
+        input("\nEnter drücken zum Fortfahren...")
+
+    except ImportError:
+        print("❌ download_ultimate.py nicht gefunden!")
+        input("Enter drücken zum Fortfahren...")
+    except Exception as e:
+        print(f"❌ Fehler: {e}")
+        input("Enter drücken zum Fortfahren...")
+
+def run_hd_only_downloader():
+    """Run HD-Only downloader that rejects videos below 1080p"""
+    try:
+        print("\n" + "=" * 60)
+        print("🎬 HD-ONLY DOWNLOADER")
+        print("=" * 60)
+        print("⚠️  Lehnt Videos unter 1080p ab!")
+        print("=" * 60 + "\n")
+
+        mode = input("Einzelnes Video oder Batch? (e/b) [e]: ").strip().lower() or "e"
+
+        if mode == "b":
+            # Batch mode
+            urls = get_batch_urls()
+            if urls:
+                from download_hd import batch_download_hd
+                batch_download_hd(urls)
+        else:
+            # Single video mode
+            url = get_youtube_url()
+            from download_hd import HDQualityDownloader
+            downloader = HDQualityDownloader()
+            downloader.download_hd(url)
+
+        input("\nEnter drücken zum Fortfahren...")
+
+    except ImportError:
+        print("❌ download_hd.py nicht gefunden!")
+        input("Enter drücken zum Fortfahren...")
+    except Exception as e:
+        print(f"❌ Fehler: {e}")
+        input("Enter drücken zum Fortfahren...")
+
+def run_po_token_setup():
+    """Setup PO Token for better quality"""
+    try:
+        print("\n" + "=" * 60)
+        print("🔑 PO TOKEN SETUP")
+        print("=" * 60)
+        print()
+        print("Ein PO Token kann helfen, HD-Videos herunterzuladen.")
+        print()
+        print("Anleitung:")
+        print("1. Öffne YouTube in Chrome und melde dich an")
+        print("2. Öffne Developer Tools (F12)")
+        print("3. Network Tab → Reload → Suche 'player' Request")
+        print("4. Finde 'po_token' im Response")
+        print("5. Kopiere den Token (ohne Präfix)")
+        print()
+        print("Details: Siehe PO_TOKEN_ANLEITUNG.md")
+        print("=" * 60 + "\n")
+
+        from download_ultimate import UltimateHDDownloader
+        downloader = UltimateHDDownloader()
+        downloader.setup_po_token()
+
+        input("\nEnter drücken zum Fortfahren...")
+
+    except ImportError:
+        print("❌ download_ultimate.py nicht gefunden!")
+        input("Enter drücken zum Fortfahren...")
+    except Exception as e:
+        print(f"❌ Fehler: {e}")
+        input("Enter drücken zum Fortfahren...")
+
 def main():
     """Main function"""
 
@@ -216,25 +317,41 @@ def main():
         clear_screen()
         show_menu()
 
-        choice = input("Auswahl (1-5): ").strip()
+        choice = input("Auswahl (1-8): ").strip()
 
         if choice == "1":
+            # Einzelnes Video in HD/4K
             url = get_youtube_url()
             run_downloader(url, "video")
 
         elif choice == "2":
+            # Einzelnes Audio
             url = get_youtube_url()
             run_downloader(url, "audio")
 
         elif choice == "3":
+            # Batch Videos in HD/4K
             urls = get_batch_urls()
             run_batch_download(urls, "video")
 
         elif choice == "4":
+            # Batch Audios
             urls = get_batch_urls()
             run_batch_download(urls, "audio")
 
         elif choice == "5":
+            # Ultimate HD Downloader
+            run_ultimate_downloader()
+
+        elif choice == "6":
+            # HD-Only Downloader
+            run_hd_only_downloader()
+
+        elif choice == "7":
+            # PO Token Setup
+            run_po_token_setup()
+
+        elif choice == "8":
             print("\n👋 Auf Wiedersehen!")
             break
 

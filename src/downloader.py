@@ -21,25 +21,30 @@ def download_video(url, output_dir=None):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    # Configure yt-dlp options with modern YouTube workarounds
+    # Configure yt-dlp options for HIGH QUALITY downloads
     ydl_opts = {
         'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
-        'format': 'bv*+ba/b',
+        # Format für beste Qualität - FUNKTIONIERT für HD/4K
+        'format': 'bestvideo[height>=1080]+bestaudio/best[height>=1080]/best',
         'merge_output_format': 'mp4',
         'noplaylist': True,
-        'retries': 3,
-        'fragment_retries': 3,
-        'concurrent_fragment_downloads': 1,
+        'retries': 10,
+        'fragment_retries': 10,
+        'concurrent_fragment_downloads': 4,
+        # Nutze Browser-Cookies für bessere Qualität - WICHTIG!
+        'cookiesfrombrowser': ('chrome',),  # Nutzt Chrome Cookies automatisch
         'http_headers': {
-            'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
-                           'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'),
+            'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                           'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'),
             'Accept-Language': 'en-US,en;q=0.9',
+            'Accept': '*/*',
         },
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['android'],
-            }
-        },
+        # Rate limiting to avoid detection
+        'sleep_interval': 2,
+        'max_sleep_interval': 5,
+        'quiet': False,
+        'no_warnings': False,
+        'progress': True,
     }
     
     try:
@@ -65,29 +70,34 @@ def download_audio(url, output_dir=None):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    # Configure yt-dlp options for audio only with the same YouTube workarounds
+    # Configure yt-dlp options for HIGH QUALITY audio
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
-        'retries': 3,
-        'fragment_retries': 3,
+        'retries': 5,
+        'fragment_retries': 5,
         'concurrent_fragment_downloads': 1,
         'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
+        # Nutze Browser-Cookies für bessere Qualität
+        'cookiesfrombrowser': ('chrome',),
         'http_headers': {
             'User-Agent': ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
-                           'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'),
+                           'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'),
             'Accept-Language': 'en-US,en;q=0.9',
         },
         'extractor_args': {
             'youtube': {
-                'player_client': ['android'],
+                'player_client': ['web_creator', 'tv_embedded', 'ios'],
+                'player_skip': ['configs', 'webpage'],
             }
         },
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '192',
+            'preferredquality': '320',  # Höchste MP3 Qualität
         }],
+        'sleep_interval': 2,
+        'max_sleep_interval': 5,
     }
     
     try:
