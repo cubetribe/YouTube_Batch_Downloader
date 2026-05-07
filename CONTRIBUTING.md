@@ -46,6 +46,7 @@ source venv/bin/activate
 
 # Dependencies installieren
 pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 #### Pull Request Prozess
@@ -121,13 +122,20 @@ def extract_youtube_urls(text: str) -> list[str]:
 
 ## 🧪 Testing
 
-Aktuell gibt es noch keine automatisierten Tests. Aber:
+Automatisierte Tests laufen mit:
 
-1. **Teste deine Änderungen manuell**
-2. Probiere verschiedene Szenarien aus
-3. Stelle sicher, dass nichts kaputt geht
+```bash
+python -m pytest -q
+```
 
-Feature-Idee: Test-Suite aufbauen! 😉
+Downloader-, Netzwerk- und Cookie-Logik muss in Tests offline bleiben. Mocke `yt_dlp`, Browser-Cookies, Netzwerkzugriffe und echte Downloads, damit Tests reproduzierbar bleiben und keine Nutzerdaten oder lokalen Dateien beruehren.
+
+Fuehre fuer repo-weite Checks bei Bedarf zusaetzlich aus:
+
+```bash
+python -m ruff check start.py src tests --select E9,F63,F7,F82 --target-version py310
+python -m compileall -q start.py src gui download_4k.py download_best.py download_force_4k.py download_hd.py download_strict_hd.py download_ultimate.py
+```
 
 ## 📋 Projekt-Struktur
 

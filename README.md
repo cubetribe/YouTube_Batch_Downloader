@@ -1,6 +1,7 @@
 # 🎬 YouTube Batch Downloader
 
-[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/cubetribe/YouTube_Batch_Downloader/actions/workflows/ci.yml/badge.svg)](https://github.com/cubetribe/YouTube_Batch_Downloader/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![yt-dlp](https://img.shields.io/badge/powered%20by-yt--dlp-red.svg)](https://github.com/yt-dlp/yt-dlp)
 [![Made with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-5436DA.svg)](https://claude.ai/code)
@@ -34,7 +35,7 @@ A simple, powerful YouTube downloader with batch functionality for Windows, macO
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - pip (Python Package Manager)
 
 ### Setup
@@ -52,6 +53,18 @@ venv\Scripts\activate  # Windows
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+### Development Checks
+
+```bash
+# Install test and lint tools
+pip install -r requirements-dev.txt
+
+# Run CI-equivalent offline checks
+python -m ruff check start.py src tests --select E9,F63,F7,F82 --target-version py310
+python -m compileall -q start.py src gui download_4k.py download_best.py download_force_4k.py download_hd.py download_strict_hd.py download_ultimate.py
+python -m pytest -q
 ```
 
 ## 🚀 Usage
@@ -212,7 +225,8 @@ Made with ❤️ and Claude Code
 
 **[🇬🇧 English version above](#-youtube-batch-downloader) | Deutsche Version**
 
-[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/cubetribe/YouTube_Batch_Downloader/actions/workflows/ci.yml/badge.svg)](https://github.com/cubetribe/YouTube_Batch_Downloader/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![yt-dlp](https://img.shields.io/badge/powered%20by-yt--dlp-red.svg)](https://github.com/yt-dlp/yt-dlp)
 [![Made with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-5436DA.svg)](https://claude.ai/code)
@@ -244,7 +258,7 @@ Ein einfacher, leistungsstarker YouTube-Downloader mit Batch-Funktion für Windo
 
 ### Voraussetzungen
 
-- Python 3.9 oder höher
+- Python 3.10 oder höher
 - pip (Python Package Manager)
 
 ### Setup
@@ -262,6 +276,18 @@ venv\Scripts\activate  # Windows
 
 # Dependencies installieren
 pip install -r requirements.txt
+```
+
+### Entwicklungs-Checks
+
+```bash
+# Test- und Lint-Tools installieren
+pip install -r requirements-dev.txt
+
+# CI-aequivalente Offline-Checks ausfuehren
+python -m ruff check start.py src tests --select E9,F63,F7,F82 --target-version py310
+python -m compileall -q start.py src gui download_4k.py download_best.py download_force_4k.py download_hd.py download_strict_hd.py download_ultimate.py
+python -m pytest -q
 ```
 
 ## 🚀 Verwendung
