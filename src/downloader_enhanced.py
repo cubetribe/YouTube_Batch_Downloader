@@ -73,24 +73,34 @@ class EnhancedDownloader:
         Returns:
             True if download was successful, False otherwise.
         """
-        opts = self._get_base_opts(os.path.join(self.output_dir, '%(title)s.%(ext)s'))
-        opts['format'] = format_selector
+        base_opts = self._get_base_opts(os.path.join(self.output_dir, '%(title)s.%(ext)s'))
+        base_opts['format'] = format_selector
 
-        self.logger.info(f"Attempting to download '{url}' as {quality_label}...")
+        strategies = [
+            ("without browser cookies", False),
+            ("with Chrome cookies", True),
+        ]
 
-        try:
-            with yt_dlp.YoutubeDL(opts) as ydl:
-                # The download happens here
-                ydl.extract_info(url, download=True)
-            self.logger.info(f"SUCCESS: Downloaded '{url}' as {quality_label}.")
-            return True
-        except yt_dlp.utils.DownloadError as e:
-            # This error is often raised when no suitable stream is found
-            self.logger.warning(f"Could not download '{url}' as {quality_label}. Reason: No suitable stream found or access denied. ({str(e)[:100]}...)")
-            return False
-        except Exception as e:
-            self.logger.error(f"An unexpected error occurred while trying to download '{url}' as {quality_label}: {e}")
-            return False
+        for strategy_label, use_browser_cookies in strategies:
+            opts = base_opts.copy()
+            if not use_browser_cookies:
+                opts.pop('cookiesfrombrowser', None)
+
+            self.logger.info(f"Attempting to download '{url}' as {quality_label} {strategy_label}...")
+
+            try:
+                with yt_dlp.YoutubeDL(opts) as ydl:
+                    # The download happens here
+                    ydl.extract_info(url, download=True)
+                self.logger.info(f"SUCCESS: Downloaded '{url}' as {quality_label} {strategy_label}.")
+                return True
+            except yt_dlp.utils.DownloadError as e:
+                # This error is often raised when no suitable stream is found
+                self.logger.warning(f"Could not download '{url}' as {quality_label} {strategy_label}. Reason: No suitable stream found or access denied. ({str(e)[:100]}...)")
+            except Exception as e:
+                self.logger.error(f"An unexpected error occurred while trying to download '{url}' as {quality_label} {strategy_label}: {e}")
+
+        return False
 
     def download_video(self, url: str):
         """

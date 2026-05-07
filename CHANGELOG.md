@@ -7,6 +7,9 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Fixed
+- Video-Downloads versuchen HD/4K-Formate zuerst ohne Browser-Cookies, damit Cookie-bedingt unvollständige YouTube-Formatlisten nicht sofort zum Abbruch führen.
+
 ### Geplant
 - GUI-Version mit tkinter
 - Playlist-Support
