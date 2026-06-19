@@ -5,6 +5,41 @@ Alle wichtigen Änderungen an diesem Projekt werden in dieser Datei dokumentiert
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/),
 und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
+## [3.0.0] - 2026-06-19 — „Das Glow-Up" ✨
+
+> Aus dem braven **YouTube Batch Downloader** wird der **Nerd Downloader**: eine
+> lokale Web-App mit Paste-und-Klick-Charme. Kein Account, keine Cloud, keine Werbung.
+> Die alte Terminal-CLI darf trotzdem im Keller weiterleben. 🤓
+
+### Added
+- **Nerd Downloader** — neue lokale Web-App (Rebrand): per Doppelklick startbar,
+  öffnet sich im Browser unter `http://127.0.0.1:8765`. Workflow: Link einfügen →
+  Video-Infos sehen → Qualität & Zielordner wählen → Download mit Live-Fortschritt.
+- Flask-Backend (`nerd_downloader/`) mit `yt-dlp`-Engine, Job-/SSE-Fortschritt,
+  nativem macOS-Ordner-Picker und „Im Finder zeigen" (via `osascript`).
+- Vanilla-JS-UI ohne Build-Schritt (dunkles „Nerd/Terminal"-Design), responsiv.
+- Doppelklick-Launcher `Nerd Downloader.command` (richtet venv + Abhängigkeiten
+  selbst ein, prüft Python 3.10+ und bietet an, **ffmpeg per Homebrew** zu installieren,
+  bleibt bei Fehlern sichtbar offen).
+- Qualitäts-Presets: Beste (bis 4K), 4K bevorzugt, 1080p, 720p, MP3 (320 kbps).
+- Teilbare ZIP für Freund:innen inkl. `LIESMICH.txt` (siehe Releases).
+
+### Changed
+- Server lauscht ausschließlich auf `127.0.0.1` (kein Netzwerkzugriff von außen).
+- `requirements.txt` umfasst jetzt `flask` (Web-App ist das Hauptprodukt); die
+  Terminal-CLI (`start.py`, `download_*.py`, `gui/`) bleibt unverändert erhalten.
+
+### Fixed
+- Download-Metadaten werden konsistent als `M:SS`/`H:MM:SS` angezeigt.
+- HD/4K-Fallbacks bevorzugen MP4, statt im Zweifel ein WebM zu liefern.
+- SSE-Verbindungsabbruch lässt die UI nicht mehr „hängen" — Fehlermeldung + Retry.
+- ffmpeg-Fehlen wird früh mit klarer Meldung gemeldet; `yt-dlp`-Konsolen-Spam aus.
+
+### Security
+- `reveal_in_finder` grenzt das Ziel via `realpath` + `commonpath` auf `$HOME` ein.
+- Fehlermeldungen geben nur kuratierten Text zurück, nie rohe Exception-/yt-dlp-Details.
+- Geprüft durch einen Multi-Agent-Review; CodeQL-Findings adressiert.
+
 ## [Unreleased]
 
 ### Added
