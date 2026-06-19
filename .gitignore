@@ -44,7 +44,6 @@ downloads/*.mp3
 downloads/*.webm
 downloads/*.v2cache
 gui/gui_config.json
-test_*.py
 
 # Logs
 *.log
@@ -67,5 +66,12 @@ config.local.json
 *.env
 .env.local
 
+# Test and coverage output
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
 # Generated log files
+/download_log.txt
 src/download_log.txt

@@ -1,0 +1,3 @@
+# Default repository ownership. Branch protection controls whether code owner
+# review is required.
+* @cubetribe

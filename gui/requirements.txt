@@ -1,5 +1,5 @@
 # Video Downloader GUI - Requirements
-# Python 3.8+ required
+# Python 3.10+ required
 
 # Core video download functionality
 yt-dlp>=2024.12.0

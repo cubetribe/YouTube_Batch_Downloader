@@ -7,8 +7,20 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Added
+- Repo-lokale Governance mit GitHub-Flow-Regeln, Offline-Testvorgaben und manueller Keep-a-Changelog-Releasepraxis dokumentiert.
+- Entwicklungsabhängigkeiten für `pytest` und `ruff` sowie Offline-Tests für URL-Extraktion, Batch-Download-Accounting und Downloader-Strategiereihenfolge ergänzt.
+- GitHub-Actions-CI für Python 3.10 und 3.14 mit Ruff-Syntaxprüfungen, `compileall` und `pytest` ergänzt.
+- Dependabot-Konfiguration für Root- und GUI-`pip`-Abhängigkeiten sowie GitHub Actions ergänzt.
+
 ### Fixed
 - Video-Downloads versuchen HD/4K-Formate zuerst ohne Browser-Cookies, damit Cookie-bedingt unvollständige YouTube-Formatlisten nicht sofort zum Abbruch führen.
+
+### Security
+- Dependency Review-, CodeQL- und Dependency-Audit-Workflows mit least-privilege Permissions ergänzt.
+- Externe GitHub Actions in CI- und Security-Workflows auf volle Commit-SHAs gepinnt.
+- Dependency-Audit deckt jetzt auch Entwicklungsabhängigkeiten aus `requirements-dev.txt` ab.
+- Security Policy für Python 3.10+ und private Vulnerability Reports ohne öffentliche Issues ergänzt.
 
 ### Geplant
 - GUI-Version mit tkinter
