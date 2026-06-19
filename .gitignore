@@ -75,3 +75,7 @@ htmlcov/
 # Generated log files
 /download_log.txt
 src/download_log.txt
+
+# Test / automation artifacts
+.playwright-mcp/
+nerddl-*.png

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nerd Downloader</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%93%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-glyph" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-label="Nerd Downloader">
+            <circle cx="24" cy="24" r="22" fill="var(--accent-dim)"/>
+            <path d="M24 12v16m0 0l-7-7m7 7l7-7" fill="none" stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 33h28" stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <h1>Nerd&nbsp;Downloader</h1>
+          <p class="tagline">paste · analyze · download</p>
+        </div>
+      </div>
+      <span class="version" id="version">v—</span>
+    </header>
+
+    <main>
+      <!-- Paste row: the "Icon oben" — click it to paste from the clipboard -->
+      <section class="paste-row">
+        <button class="paste-btn" id="paste-btn" title="Aus Zwischenablage einfügen" aria-label="Aus Zwischenablage einfügen">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="2" width="8" height="4" rx="1"/>
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+          </svg>
+        </button>
+        <input
+          type="url"
+          id="url-input"
+          class="url-input"
+          placeholder="YouTube-Link hier einfügen…"
+          autocomplete="off"
+          spellcheck="false"
+          inputmode="url"
+        />
+        <button class="analyze-btn" id="analyze-btn">Analysieren</button>
+      </section>
+
+      <p class="hint" id="hint">Tipp: Link auf YouTube kopieren, oben auf das <strong>Einfügen-Icon</strong> klicken — fertig.</p>
+
+      <!-- Error banner -->
+      <div class="banner banner-error hidden" id="error-banner" role="alert"></div>
+
+      <!-- Video info card -->
+      <section class="card video-card hidden" id="video-card">
+        <div class="thumb-wrap">
+          <img id="thumb" alt="" />
+          <span class="badge duration" id="badge-duration"></span>
+          <span class="badge quality" id="badge-quality"></span>
+        </div>
+        <div class="video-meta">
+          <h2 id="video-title">—</h2>
+          <p class="uploader" id="video-uploader"></p>
+        </div>
+      </section>
+
+      <!-- Download controls -->
+      <section class="card controls hidden" id="controls">
+        <div class="control-group">
+          <label for="format-select">Qualität</label>
+          <select id="format-select"></select>
+        </div>
+
+        <div class="control-group">
+          <label for="folder-input">Zielordner</label>
+          <div class="folder-row">
+            <input type="text" id="folder-input" class="folder-input" spellcheck="false" />
+            <button class="ghost-btn" id="choose-folder-btn" title="Ordner wählen">Wählen…</button>
+          </div>
+          <div class="folder-presets" id="folder-presets"></div>
+        </div>
+
+        <button class="download-btn" id="download-btn">
+          <span class="dl-label">Download starten</span>
+        </button>
+      </section>
+
+      <!-- Progress / log -->
+      <section class="card progress-card hidden" id="progress-card">
+        <div class="progress-head">
+          <span class="progress-status" id="progress-status" role="status" aria-live="polite">Starte…</span>
+          <span class="progress-percent" id="progress-percent"></span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-stats" id="progress-stats"></div>
+        <div class="result hidden" id="result" aria-live="polite">
+          <span class="result-text" id="result-text"></span>
+          <button class="ghost-btn" id="reveal-btn">Im Finder zeigen</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span id="footer-engine">yt-dlp engine</span>
+      <span class="dot">·</span>
+      <span>läuft lokal auf deinem Mac</span>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

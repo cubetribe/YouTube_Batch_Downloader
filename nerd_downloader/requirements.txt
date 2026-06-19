@@ -1,0 +1,4 @@
+# Nerd Downloader — web app dependencies (pure-Python, no build toolchain needed)
+flask>=3.0.0
+yt-dlp>=2024.12.0
+# ffmpeg must be installed separately (brew install ffmpeg) for HD/4K merging + MP3.
