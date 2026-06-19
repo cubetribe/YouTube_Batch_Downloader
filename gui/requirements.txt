@@ -17,7 +17,7 @@ mutagen>=1.47.0
 pyperclip>=1.8.0
 
 # HTTP requests
-requests>=2.28.0
+requests>=2.34.2
 
 # CLI version dependencies (for compatibility)
 rich>=13.0.0
