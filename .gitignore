@@ -79,3 +79,6 @@ src/download_log.txt
 # Test / automation artifacts
 .playwright-mcp/
 nerddl-*.png
+
+# Distribution build (shareable ZIP)
+dist/

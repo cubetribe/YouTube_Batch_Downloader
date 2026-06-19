@@ -54,7 +54,7 @@ def create_app() -> Flask:
         try:
             return jsonify(engine.extract_info(url.strip()))
         except engine.EngineError as exc:
-            return jsonify({"error": str(exc)}), 502
+            return jsonify({"error": exc.user_message}), 502
 
     @app.post("/api/download")
     def download():
@@ -126,9 +126,9 @@ def _run_download(job_id: str, url: str, fmt: str, output_dir: str) -> None:
             },
         )
     except engine.EngineError as exc:
-        manager.finish(job_id, {"type": "error", "message": str(exc)})
-    except Exception as exc:  # noqa: BLE001 — never leave the stream hanging
-        manager.finish(job_id, {"type": "error", "message": f"Unerwarteter Fehler: {exc}"})
+        manager.finish(job_id, {"type": "error", "message": exc.user_message})
+    except Exception:  # noqa: BLE001 — never leave the stream hanging
+        manager.finish(job_id, {"type": "error", "message": "Unerwarteter Fehler beim Download."})
 
 
 def _validate_url(url: str) -> tuple[bool, str]:

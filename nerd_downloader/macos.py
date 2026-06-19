@@ -47,13 +47,25 @@ def choose_folder(prompt: str = "Zielordner wählen", default: Optional[str] = N
 
 
 def reveal_in_finder(path: str) -> bool:
-    """Reveal a file (or open a folder) in Finder. Returns True on success."""
+    """Reveal a file (or open a folder) in Finder. Returns True on success.
+
+    The target must resolve to a location inside the user's home directory or a
+    mounted volume under ``/Volumes``; anything else is refused. This guard both
+    hardens the feature and keeps untrusted input from reaching ``open``.
+    """
     if not IS_MAC or not path:
         return False
-    path = os.path.abspath(os.path.expanduser(path))
-    if not os.path.exists(path):
+    target = os.path.realpath(os.path.expanduser(path))
+    home = os.path.realpath(os.path.expanduser("~"))
+    if not (
+        target == home
+        or target.startswith(home + os.sep)
+        or target.startswith("/Volumes/")
+    ):
         return False
-    args = ["open", "-R", path] if os.path.isfile(path) else ["open", path]
+    if not os.path.exists(target):
+        return False
+    args = ["open", "-R", target] if os.path.isfile(target) else ["open", target]
     try:
         subprocess.run(args, check=False, timeout=10)
         return True

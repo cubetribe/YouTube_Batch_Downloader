@@ -75,7 +75,12 @@ FORMAT_PRESETS: dict[str, dict] = {
 
 
 class EngineError(Exception):
-    """Raised when both cookie strategies fail. ``message`` is user-friendly."""
+    """Raised on failure. ``user_message`` is a safe, user-facing string that is
+    OK to send to the browser (it never contains raw yt-dlp/network text)."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        self.user_message = message
 
 
 def format_presets_for_ui() -> list[dict]:
@@ -305,6 +310,5 @@ def _friendly_error(exc: Optional[Exception]) -> str:
         return "Diese URL wird nicht unterstützt."
     if "ffmpeg" in low:
         return "ffmpeg fehlt — wird für Zusammenführen/Audio benötigt."
-    # Trim yt-dlp's noisy prefix for display.
-    cleaned = text.replace("ERROR: ", "").strip()
-    return cleaned[:300] if cleaned else "Download fehlgeschlagen."
+    # Never surface raw yt-dlp/network text — it can contain internal details.
+    return "Download fehlgeschlagen — bitte Link und Internetverbindung prüfen."
