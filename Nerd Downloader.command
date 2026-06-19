@@ -37,7 +37,16 @@ if ! "$PY" -c "import flask, yt_dlp" >/dev/null 2>&1; then
 fi
 
 if ! command -v ffmpeg >/dev/null 2>&1; then
-  echo "⚠️  ffmpeg nicht gefunden — für HD/4K-Merge und MP3 bitte: brew install ffmpeg"
+  if command -v brew >/dev/null 2>&1; then
+    printf "ffmpeg fehlt (für HD/4K & MP3). Jetzt per Homebrew installieren? [j/N] "
+    read -r answer
+    case "$answer" in
+      j|J|y|Y) brew install ffmpeg ;;
+      *) echo "→ Übersprungen. Später bei Bedarf: brew install ffmpeg" ;;
+    esac
+  else
+    echo "⚠️  ffmpeg nicht gefunden — für HD/4K & MP3 bitte installieren: brew install ffmpeg"
+  fi
 fi
 
 exec "$PY" -m nerd_downloader
